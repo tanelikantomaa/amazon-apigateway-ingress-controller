@@ -20,7 +20,6 @@ jobs:
         if: contains(github.ref, 'master')
         uses: anothrNick/github-tag-action@1.21.0
         env:
-          GITHUB_TOKEN: ${{ secrets.ACTION_GITHUB_TOKEN }}
           DEFAULT_BUMP: patch
           INITIAL_VERSION: 1.5.0
           RELEASE_BRANCHES: master
@@ -29,14 +28,17 @@ jobs:
         uses: kciter/aws-ecr-action@v1
         env:
           repo: apigateway-ingress-controller
+          INSTANCE_ROLE_ARNS: arn:aws:iam::670824338614:role/eksctl-detected-dev-addon-iamserviceaccount-Role1-VLGK8YYTL07D
+          IMG: apigateway-ingress-controller
+          IAMROLEARN: arn:aws:iam::670824338614:role/eksctl-detected-dev-addon-iamserviceaccount-Role1-VLGK8YYTL07D
         with:
           access_key_id: ${{ secrets.CIUSER_AWS_ACCESS_KEY_ID }}
           secret_access_key: ${{ secrets.CIUSER_AWS_SECRET_ACCESS_KEY }}
           account_id: 838837044885
-          dockerfile: ./docker/app/Dockerfile
+          dockerfile: ./Dockerfile
           path: ./
-          extra_build_args: {}
+          # extra_build_args:
           repo: ${{ env.repo }}
           region: eu-central-1
-          tags: 1.1.0
+          tags: 1.6.0
           create_repo: false
